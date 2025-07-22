@@ -360,6 +360,29 @@
   display: block;
 }
 
+/* Example modal styles */
+.time-spent-modal {
+  position: fixed; /* Overlay entire screen */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5); /* Dim background */
+}
+
+.time-spent-modal-content {
+  background: #23283b; /* Match your card background */
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
 /* Utility Classes */
 .text-success {
   color: var(--accent-color);

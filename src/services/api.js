@@ -56,7 +56,7 @@ export const resourcesAPI = {
   create: (data) => api.post("/resources", data),
   update: (id, data) => api.put(`/resources/${id}`, data),
   delete: (id) => api.delete(`/resources/${id}`),
-  markComplete: (id) => api.post(`/resources/${id}/mark-complete`),
+  markComplete: (id, data) => api.post(`/resources/${id}/mark-complete`, data),
   getSummary: () => api.get("/resources/summary"),
 }
 

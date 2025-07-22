@@ -1,22 +1,32 @@
-"use client"
 import { Link } from "react-router-dom"
 import { useMutation, useQueryClient } from "react-query"
 import { resourcesAPI } from "../../services/api"
 import toast from "react-hot-toast"
+import { useTimeSpentModal } from "../../hooks/TimeSpentModalContext"
 
 const ResourceCard = ({ resource }) => {
   const queryClient = useQueryClient()
+  const { openModal } = useTimeSpentModal()
 
-  const markCompleteMutation = useMutation(() => resourcesAPI.markComplete(resource._id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries("resources")
-      queryClient.invalidateQueries("summary")
-      toast.success("Resource marked as completed!")
-    },
-    onError: () => {
-      toast.error("Failed to update resource")
-    },
-  })
+  const markCompleteMutation = useMutation(
+    (data) => resourcesAPI.markComplete(resource._id, data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("resources")
+        queryClient.invalidateQueries("summary")
+        toast.success("Resource marked as completed!")
+      },
+      onError: () => {
+        toast.error("Failed to update resource")
+      },
+    }
+  )
+
+  const handleMarkComplete = () => {
+    openModal((actualTime) => {
+      markCompleteMutation.mutate({ actualTimeSpent: actualTime })
+    })
+  }
 
   const getTypeIcon = (type) => {
     switch (type.toLowerCase()) {
@@ -42,12 +52,26 @@ const ResourceCard = ({ resource }) => {
           <span className="resource-category">{resource.category?.name || "Uncategorized"}</span>
         </div>
         <p className="resource-card-description">{resource.description}</p>
+
+        {(resource.estimatedTime || resource.actualTimeSpent) && (
+          <div className="resource-time-info mt-2 text-sm text-gray-600">
+            <p>
+              ⏱️ Estimated Time:{" "}
+              <strong>{resource.estimatedTime ? `${resource.estimatedTime} min` : "—"}</strong>
+            </p>
+            <p>
+              🕒 Actual Time Spent:{" "}
+              <strong>{resource.actualTimeSpent ? `${resource.actualTimeSpent} min` : "—"}</strong>
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="resource-card-footer">
         <div className={`completion-status ${resource.isCompleted ? "completed" : "pending"}`}>
           {resource.isCompleted ? "✅ Completed" : "⏳ Pending"}
         </div>
+
         <div className="flex gap-2">
           <Link
             to={`/resource/${resource._id}`}
@@ -58,7 +82,7 @@ const ResourceCard = ({ resource }) => {
           </Link>
           {!resource.isCompleted && (
             <button
-              onClick={() => markCompleteMutation.mutate()}
+              onClick={handleMarkComplete}
               disabled={markCompleteMutation.isLoading}
               className="btn btn-success"
               style={{ fontSize: "0.75rem", padding: "0.5rem 1rem" }}

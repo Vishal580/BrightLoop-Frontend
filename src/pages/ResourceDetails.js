@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query"
 import { resourcesAPI } from "../services/api"
 import toast from "react-hot-toast"
 import LoadingSpinner from "../components/common/LoadingSpinner"
+import { useTimeSpentModal } from "../hooks/TimeSpentModalContext"
 
 const ResourceDetails = () => {
   const { id } = useParams()
@@ -12,17 +13,28 @@ const ResourceDetails = () => {
 
   const { data: resource, isLoading } = useQuery(["resource", id], () => resourcesAPI.getById(id))
 
-  const markCompleteMutation = useMutation(() => resourcesAPI.markComplete(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["resource", id])
-      queryClient.invalidateQueries("resources")
-      queryClient.invalidateQueries("summary")
-      toast.success("Resource marked as completed!")
-    },
-    onError: () => {
-      toast.error("Failed to update resource")
-    },
-  })
+  const markCompleteMutation = useMutation(
+    (data) => resourcesAPI.markComplete(id, data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("resources")
+        queryClient.invalidateQueries(["resource", id])
+        toast.success("Resource marked as completed!")
+        navigate("/dashboard")
+      },
+      onError: () => {
+        toast.error("Failed to update resource")
+      },
+    }
+  )
+
+  const { openModal } = useTimeSpentModal()
+
+  const handleMarkComplete = () => {
+    openModal((actualTime) => {
+      markCompleteMutation.mutate({ actualTimeSpent: actualTime })
+    })
+  }
 
   if (isLoading) {
     return (
@@ -105,9 +117,22 @@ const ResourceDetails = () => {
             )}
           </div>
 
+          {(resourceData.estimatedTime || resourceData.actualTimeSpent) && (
+            <div className="resource-time-info mt-2 text-sm text-gray-600 mb-6">
+              <p>
+                ⏱️ Estimated Time:{" "}
+                <strong>{resourceData.estimatedTime ? `${resourceData.estimatedTime} min` : "—"}</strong>
+              </p>
+              <p>
+                🕒 Actual Time Spent:{" "}
+                <strong>{resourceData.actualTimeSpent ? `${resourceData.actualTimeSpent} min` : "—"}</strong>
+              </p>
+            </div>
+          )}
+
           {!resourceData.isCompleted && (
             <button
-              onClick={() => markCompleteMutation.mutate()}
+              onClick={handleMarkComplete}
               disabled={markCompleteMutation.isLoading}
               className="btn btn-success"
             >

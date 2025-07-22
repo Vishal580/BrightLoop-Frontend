@@ -15,6 +15,7 @@ const AddResource = () => {
     category: "",
     description: "",
     newCategory: "",
+    estimatedTime: "",
   })
 
   const { data: categories } = useQuery("categories", categoriesAPI.getAll)
@@ -77,6 +78,7 @@ const AddResource = () => {
       type: formData.type,
       category: formData.category,
       description: formData.description,
+      estimatedTime: formData.estimatedTime ? parseInt(formData.estimatedTime, 10) : 0,
     }
 
     createResourceMutation.mutate(resourceData)
@@ -184,6 +186,22 @@ const AddResource = () => {
               value={formData.description}
               onChange={handleChange}
               placeholder="Enter a brief description of the resource..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="estimatedTime" className="form-label">
+              Estimated Time (in minutes)
+            </label>
+            <input
+              type="number"
+              id="estimatedTime"
+              name="estimatedTime"
+              className="form-input"
+              value={formData.estimatedTime}
+              onChange={handleChange}
+              min={0}
+              placeholder="e.g. 60"
             />
           </div>
 

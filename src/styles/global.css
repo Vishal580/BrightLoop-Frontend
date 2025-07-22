@@ -124,7 +124,6 @@ body {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   font-size: 0.875rem;
-  background-color: var(--background);
 }
 
 .form-textarea {
