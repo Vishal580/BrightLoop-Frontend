@@ -4,6 +4,7 @@ import { resourcesAPI } from "../services/api"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import StatsCard from "../components/dashboard/StatsCard"
 import ResourceCard from "../components/dashboard/ResourceCard"
+import formatTime from "../hooks/formatTime"
 
 const Dashboard = () => {
   const { data: resources, isLoading: resourcesLoading } = useQuery("resources", resourcesAPI.getAll)
@@ -40,7 +41,7 @@ const Dashboard = () => {
           icon="⏳"
           color="bg-warning"
         />
-        <StatsCard title="Total Time" value={`${summaryData.totalTimeSpent || 0}h`} icon="⏰" color="bg-primary" />
+        <StatsCard title="Total Time" value={formatTime(summaryData.totalTimeSpent || 0)} icon="⏰" color="bg-primary" />
       </div>
 
       {/* Category Progress */}

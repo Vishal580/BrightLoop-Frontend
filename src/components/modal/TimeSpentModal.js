@@ -14,7 +14,7 @@ const TimeSpentModal = ({ isLoading = false }) => {
           className="form-input mb-4"
           value={actualTime}
           onChange={(e) => setActualTime(e.target.value)}
-          placeholder="e.g. 45"
+          placeholder="e.g. 60"
           min="0"
         />
         <div className="flex gap-2">
