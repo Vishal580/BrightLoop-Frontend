@@ -8,10 +8,9 @@ import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import AddResource from "./pages/AddResource"
 import ResourceDetails from "./pages/ResourceDetails"
+import ResourceUpdate from "./pages/ResourceUpdate"
 import LoadingSpinner from "./components/common/LoadingSpinner"
 import { TimeSpentModalProvider } from "./hooks/TimeSpentModalContext"
-import TimeSpentModal from "./components/modal/TimeSpentModal"
-
 
 function App() {
   const { user, loading } = useAuth()
@@ -39,10 +38,10 @@ function App() {
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/add-resource" element={<AddResource />} />
                   <Route path="/resource/:id" element={<ResourceDetails />} />
+                  <Route path="/resource/update/:id" element={<ResourceUpdate />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
               </Layout>
-              <TimeSpentModal />
             </TimeSpentModalProvider>
           </ProtectedRoute>
         }

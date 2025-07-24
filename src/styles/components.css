@@ -362,25 +362,19 @@
 
 /* Example modal styles */
 .time-spent-modal {
-  position: fixed; /* Overlay entire screen */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.5); /* Dim background */
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.5);
 }
-
 .time-spent-modal-content {
-  background: #23283b; /* Match your card background */
+  background: #23283b;
   padding: 2rem;
   border-radius: 12px;
   max-width: 400px;
   width: 100%;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0);
 }
 
 /* Utility Classes */
@@ -410,4 +404,15 @@
 
 .bg-primary {
   background-color: var(--primary-color);
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  transition: color 0.2s;
+}
+.icon-btn:hover {
+  color: #007bff;
 }

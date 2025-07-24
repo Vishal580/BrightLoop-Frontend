@@ -1,10 +1,11 @@
-"use client"
 import { useParams, useNavigate } from "react-router-dom"
 import { useQuery, useMutation, useQueryClient } from "react-query"
 import { resourcesAPI } from "../services/api"
 import toast from "react-hot-toast"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import { useTimeSpentModal } from "../hooks/TimeSpentModalContext"
+import { useState } from "react"
+import Modal from "../components/common/Modal"
 
 const ResourceDetails = () => {
   const { id } = useParams()
@@ -28,12 +29,32 @@ const ResourceDetails = () => {
     }
   )
 
-  const { openModal } = useTimeSpentModal()
+  const { showModal, actualTime, setActualTime, handleSubmit, closeModal, openModal } = useTimeSpentModal()
 
   const handleMarkComplete = () => {
     openModal((actualTime) => {
       markCompleteMutation.mutate({ actualTimeSpent: actualTime })
     })
+  }
+
+  const handleUpdate = () => {
+    navigate(`/resource/update/${resourceData._id}`)
+  }
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+
+  const confirmDelete = async () => {
+    try {
+      await resourcesAPI.delete(resourceData._id)
+      toast.success("Resource deleted!")
+      queryClient.invalidateQueries("resources")
+      queryClient.invalidateQueries("summary")
+      navigate("/dashboard")
+    } catch (error) {
+      toast.error("Failed to delete resource")
+    } finally {
+      setShowDeleteModal(false)
+    }
   }
 
   if (isLoading) {
@@ -85,7 +106,18 @@ const ResourceDetails = () => {
 
       <div className="card">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold mb-4">{resourceData.title}</h1>
+          <div className="flex items-center gap-2 mb-4">
+            <h1 className="text-2xl font-bold">{resourceData.title}</h1>
+            <button onClick={handleUpdate} className="icon-btn" title="Edit" style={{ fontSize: "1.1rem" }}>✏️</button>
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="icon-btn"
+              title="Delete"
+              style={{ fontSize: "1.1rem", color: "red" }}
+            >
+              🗑️
+            </button>
+          </div>
 
           <div className="flex items-center gap-4 mb-4">
             <span className="resource-type">
@@ -146,8 +178,46 @@ const ResourceDetails = () => {
               )}
             </button>
           )}
+
+          <Modal open={showModal} onClose={closeModal}>
+            <div>
+              <h2 className="text-xl mb-4">Enter Actual Time Spent (in minutes)</h2>
+              <input
+                type="number"
+                className="form-input mb-4"
+                value={actualTime}
+                onChange={(e) => setActualTime(e.target.value)}
+                placeholder="e.g. 60"
+                min="0"
+              />
+              <div className="flex gap-2">
+                <button className="btn btn-primary" onClick={handleSubmit}>
+                  Save & Complete
+                </button>
+                <button className="btn btn-secondary" onClick={closeModal}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </Modal>
         </div>
       </div>
+
+      <Modal open={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+        <div>
+          <h2 style={{ fontWeight: 600, fontSize: "1.2rem", marginBottom: "1.5rem" }}>
+            Are you sure you want to delete this resource?
+          </h2>
+          <div className="flex gap-4 justify-end">
+            <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
+              Cancel
+            </button>
+            <button className="btn btn-primary" onClick={confirmDelete}>
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
