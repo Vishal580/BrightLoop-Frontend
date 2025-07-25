@@ -72,7 +72,7 @@
 .main-content {
   flex: 1;
   margin-left: 280px;
-  padding: 2rem;
+  padding: 6rem 2rem 2rem 2rem;
   transition: margin-left 0.3s ease;
 }
 
@@ -81,14 +81,20 @@
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 280px; /* Matches the sidebar width */
+  right: 0;
+  height: 4rem;
   background: var(--background);
   border-bottom: 1px solid var(--border-color);
   padding: 1rem 2rem;
-  margin: -2rem -2rem 2rem -2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 999;
 }
+
 
 .header-title {
   font-size: 1.5rem;
