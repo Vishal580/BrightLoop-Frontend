@@ -1,4 +1,3 @@
-"use client"
 import { Link, useLocation } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 
@@ -17,7 +16,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className={`sidebar ${isOpen ? "active" : ""}`}>
+    <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
       <div className="sidebar-brand">
         <span style={{ fontSize: "1.5rem" }}>📚</span>
         <h1>BrightLoop</h1>
