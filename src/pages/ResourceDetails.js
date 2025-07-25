@@ -190,12 +190,12 @@ const ResourceDetails = () => {
                 placeholder="e.g. 60"
                 min="0"
               />
-              <div className="flex gap-2">
-                <button className="btn btn-primary" onClick={handleSubmit}>
-                  Save & Complete
-                </button>
+              <div className="flex gap-4 justify-end">
                 <button className="btn btn-secondary" onClick={closeModal}>
                   Cancel
+                </button>
+                <button className="btn btn-primary" onClick={handleSubmit}>
+                  Save & Complete
                 </button>
               </div>
             </div>

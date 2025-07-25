@@ -155,7 +155,7 @@ const AddResource = () => {
 
           <div className="form-group">
             <label className="form-label">Create New Category</label>
-            <div className="flex gap-2">
+            <div className="flex gap-4">
               <input
                 type="text"
                 name="newCategory"

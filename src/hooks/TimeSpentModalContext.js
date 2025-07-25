@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react"
+import toast from "react-hot-toast"
 
 const TimeSpentModalContext = createContext()
 
@@ -19,22 +20,26 @@ export const TimeSpentModalProvider = ({ children }) => {
   }
 
   const handleSubmit = () => {
-    if (!actualTime || isNaN(actualTime)) return
-    onSubmit(parseInt(actualTime, 10))
-    closeModal()
+    if (!actualTime || Number(actualTime) <= 0) {
+      toast.error("Please enter the actual time spent (in minutes).")
+      return
+    }
+    onSubmit(actualTime)
+    setShowModal(false)
+    setActualTime("")
+  }
+
+  const value = {
+    showModal,
+    actualTime,
+    setActualTime,
+    openModal,
+    closeModal,
+    handleSubmit,
   }
 
   return (
-    <TimeSpentModalContext.Provider
-      value={{
-        showModal,
-        actualTime,
-        setActualTime,
-        openModal,
-        closeModal,
-        handleSubmit,
-      }}
-    >
+    <TimeSpentModalContext.Provider value={value}>
       {children}
     </TimeSpentModalContext.Provider>
   )

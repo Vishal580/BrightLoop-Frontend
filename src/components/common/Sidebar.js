@@ -16,29 +16,32 @@ const Sidebar = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      <div className="sidebar-brand">
-        <span style={{ fontSize: "1.5rem" }}>📚</span>
-        <h1>BrightLoop</h1>
+    <div className={`sidebar ${isOpen ? "open" : "closed"}`} style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <div>
+        <div className="sidebar-brand">
+          <span style={{ fontSize: "1.5rem" }}>📚</span>
+          <h1>BrightLoop</h1>
+        </div>
+
+        <nav>
+          <ul className="sidebar-nav">
+            {navigation.map((item) => (
+              <li key={item.name} className="sidebar-nav-item">
+                <Link
+                  to={item.href}
+                  className={`sidebar-nav-link ${location.pathname === item.href ? "active" : ""}`}
+                  onClick={onClose}
+                >
+                  <span>{item.icon}</span>
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
-      <nav>
-        <ul className="sidebar-nav">
-          {navigation.map((item) => (
-            <li key={item.name} className="sidebar-nav-item">
-              <Link
-                to={item.href}
-                className={`sidebar-nav-link ${location.pathname === item.href ? "active" : ""}`}
-                onClick={onClose}
-              >
-                <span>{item.icon}</span>
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
+      {/* Logout button at the bottom */}
       <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
         <button
           onClick={handleLogout}
