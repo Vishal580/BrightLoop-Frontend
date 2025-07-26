@@ -190,7 +190,7 @@ const ResourceDetails = () => {
                 placeholder="e.g. 60"
                 min="0"
               />
-              <div className="flex gap-4 justify-end">
+              <div className="flex gap-4 justify-center">
                 <button className="btn btn-secondary" onClick={closeModal}>
                   Cancel
                 </button>
@@ -208,7 +208,7 @@ const ResourceDetails = () => {
           <h2 style={{ fontWeight: 600, fontSize: "1.2rem", marginBottom: "1.5rem" }}>
             Are you sure you want to delete this resource?
           </h2>
-          <div className="flex gap-4 justify-end">
+          <div className="flex gap-4 justify-center">
             <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>
               Cancel
             </button>

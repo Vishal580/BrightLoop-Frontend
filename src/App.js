@@ -1,4 +1,3 @@
-"use client"
 import { Routes, Route, Navigate } from "react-router-dom"
 import { useAuth } from "./hooks/useAuth"
 import Layout from "./components/common/Layout"

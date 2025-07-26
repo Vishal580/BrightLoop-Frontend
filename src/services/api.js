@@ -65,3 +65,8 @@ export const categoriesAPI = {
   getAll: () => api.get("/categories"),
   create: (data) => api.post("/categories", data),
 }
+
+// Chat API
+export const chatAPI = {
+  chat: (message) => api.post("/chat", { message }),
+}

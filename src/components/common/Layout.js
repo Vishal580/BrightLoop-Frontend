@@ -1,34 +1,35 @@
-import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import { useState, useEffect } from "react"
+import Sidebar from "./Sidebar"
+import Header from "./Header"
+import ChatbotWidget from "./ChatbotWidget"
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768)
 
-  // Set default based on screen size
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
-        setSidebarOpen(false); // closed on mobile
+        setSidebarOpen(false)
       } else {
-        setSidebarOpen(true); // open on desktop
+        setSidebarOpen(true)
       }
-    };
+    }
 
-    handleResize(); // run once on mount
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   return (
     <div className="app-layout">
       <Sidebar isOpen={sidebarOpen} />
       <div className={`main-content ${!sidebarOpen ? "full-width" : ""}`}>
-        <Header onMenuClick={() => setSidebarOpen((open) => !open)} />
+        <Header onMenuClick={() => setSidebarOpen(open => !open)} />
         {children}
       </div>
+      <ChatbotWidget />
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
