@@ -6,6 +6,7 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import AddResource from "./pages/AddResource"
+import QuestionGeneratorPage from "./pages/QuestionGeneratorPage"
 import ResourceDetails from "./pages/ResourceDetails"
 import ResourceUpdate from "./pages/ResourceUpdate"
 import LoadingSpinner from "./components/common/LoadingSpinner"
@@ -38,6 +39,7 @@ function App() {
                   <Route path="/add-resource" element={<AddResource />} />
                   <Route path="/resource/:id" element={<ResourceDetails />} />
                   <Route path="/resource/update/:id" element={<ResourceUpdate />} />
+                  <Route path="/question-generator" element={<QuestionGeneratorPage />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
               </Layout>

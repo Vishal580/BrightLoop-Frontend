@@ -10,6 +10,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: "📊" },
     { name: "Add Resource", href: "/add-resource", icon: "➕" },
+    { name: "AI Question Generator", href: "/question-generator", icon: "🤖" },
   ]
 
   const [showlogoutModal, setShowLogoutModal] = useState(false)
@@ -18,56 +19,52 @@ const Sidebar = ({ isOpen, onClose }) => {
     setShowLogoutModal(false)
   }
 
-  // const handleLogout = () => {
-  //   logout()
-  // }
-
   return (
     <>
-    <div className={`sidebar ${isOpen ? "open" : "closed"}`} style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <div>
-        <div className="sidebar-brand">
-          <span style={{ fontSize: "1.5rem" }}>📚</span>
-          <h1>BrightLoop</h1>
+      <div className={`sidebar ${isOpen ? "open" : "closed"}`} style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+        <div>
+          <div className="sidebar-brand">
+            <span style={{ fontSize: "1.5rem" }}>📚</span>
+            <h1>BrightLoop</h1>
+          </div>
+
+          <nav>
+            <ul className="sidebar-nav">
+              {navigation.map((item) => (
+                <li key={item.name} className="sidebar-nav-item">
+                  <Link
+                    to={item.href}
+                    className={`sidebar-nav-link ${location.pathname === item.href ? "active" : ""}`}
+                    onClick={onClose}
+                  >
+                    <span>{item.icon}</span>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        <nav>
-          <ul className="sidebar-nav">
-            {navigation.map((item) => (
-              <li key={item.name} className="sidebar-nav-item">
-                <Link
-                  to={item.href}
-                  className={`sidebar-nav-link ${location.pathname === item.href ? "active" : ""}`}
-                  onClick={onClose}
-                >
-                  <span>{item.icon}</span>
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* Logout button at the bottom */}
+        <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
+          <button
+            onClick={() => setShowLogoutModal(true)}
+            className="sidebar-nav-link"
+            style={{
+              width: "100%",
+              background: "none",
+              border: "1px solid #6366f1",
+              cursor: "pointer",
+              textAlign: "left",
+            }}
+          >
+            <span>🚪</span>
+            Logout
+          </button>
+        </div>
       </div>
-
-      {/* Logout button at the bottom */}
-      <div style={{ marginTop: "auto", paddingTop: "2rem" }}>
-        <button
-          onClick={() => setShowLogoutModal(true)}
-          className="sidebar-nav-link"
-          style={{
-            width: "100%",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            textAlign: "left",
-          }}
-        >
-          <span>🚪</span>
-          Logout
-        </button>       
-      </div>
-    </div>
-          <Modal open={showlogoutModal} onClose={() => setShowLogoutModal(false)}>
+      <Modal open={showlogoutModal} onClose={() => setShowLogoutModal(false)}>
         <div>
           <h2 style={{ fontWeight: 600, fontSize: "1.2rem", marginBottom: "1.5rem" }}>
             Are you sure you want to Logout?

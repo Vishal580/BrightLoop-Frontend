@@ -1,4 +1,3 @@
-"use client"
 import { useAuth } from "../../hooks/useAuth"
 
 const Header = ({ onMenuClick }) => {
@@ -10,7 +9,7 @@ const Header = ({ onMenuClick }) => {
         <button className="mobile-menu-toggle" onClick={onMenuClick}>
           ☰
         </button>
-        <h1 className="header-title">Personal Learning Tracker</h1>
+        <h1 className="header-title">AI Learning Platform and Progress Tracker</h1>
       </div>
 
       <div className="user-menu">
