@@ -245,7 +245,7 @@ REACT_APP_API_URL=http://localhost:5000/api
 - **global.css** - Base styles, variables, utility classes
 - **components.css** - Component-specific styles
 - **questionGenerator.css** - AI generator specific styles
-- **chatbox.css** - AI assistant floating widget styles
+- **chatbot.css** - AI assistant floating widget styles
 - **responsive.css** - Media queries and responsive adjustments
 
 ### Naming Conventions
@@ -256,7 +256,7 @@ REACT_APP_API_URL=http://localhost:5000/api
 
 ### Best Practices
 - Use CSS variables for consistent theming
-- Mobile-first responsive design
+- Desktop-first responsive design
 - Semantic HTML structure
 - Accessible form inputs and navigation
 - Consistent spacing using CSS custom properties
@@ -264,7 +264,6 @@ REACT_APP_API_URL=http://localhost:5000/api
 ## 🧪 Testing
 
 ### Component Testing
-- Unit tests for utility functions
 - Component rendering tests
 - API integration tests
 - Form validation tests
@@ -287,10 +286,8 @@ npm run build
 ```
 
 ### Deployment Targets
-- **Netlify** - Static site hosting
 - **Vercel** - React app deployment
-- **AWS S3 + CloudFront** - Scalable static hosting
-- **Docker** - Containerized deployment
+- **Render** - Server hosting
 
 ## 🤝 Contributing
 
@@ -306,10 +303,6 @@ npm run build
 - Prettier for code formatting
 - Consistent component structure
 - Comprehensive error handling
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
