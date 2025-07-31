@@ -73,10 +73,7 @@ export const chatAPI = {
 
 // Question Generator API
 export const questionGeneratorAPI = {
-  // Generate interview questions
   generateQuestions: (data) => api.post("/questions/generate", data),
-  
-  // Get answer for a specific question
   getAnswer: (questionId) => api.get(`/questions/answer/${questionId}`),
   
   // Upload job description file

@@ -12,7 +12,7 @@ const QuestionGenerator = () => {
     language: "English",
     numberOfQuestions: 5,
   })
-  
+
   // UI state
   const [isLoading, setIsLoading] = useState(false)
   const [generatedQuestions, setGeneratedQuestions] = useState(null)
@@ -23,7 +23,7 @@ const QuestionGenerator = () => {
   const questionStyleOptions = [
     "Behavioral", "Situational", "Technical", "Knowledge", "Terminology", "Problem-Solving"
   ]
-  
+
   const experienceLevelOptions = [
     "Fresher", "Mid-Level", "Senior"
   ]
@@ -42,7 +42,7 @@ const QuestionGenerator = () => {
     setFormData(prev => {
       const currentStyles = prev.questionStyles
       const isSelected = currentStyles.includes(style)
-      
+
       if (isSelected) {
         return {
           ...prev,
@@ -62,56 +62,63 @@ const QuestionGenerator = () => {
 
   // Handle file upload
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
+    const file = e.target.files[0];
+    if (!file) return;
 
-    if (file.type !== "text/plain") {
-      toast.error("Please upload a .txt file")
-      return
+    const allowedTypes = [
+      'text/plain',
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Please upload a .txt, .pdf, or .docx file");
+      return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("File size should be less than 5MB")
-      return
+      toast.error("File size should be less than 5MB");
+      return;
     }
 
-    setSelectedFile(file)
-    
+    setSelectedFile(file);
+
     try {
-      const response = await questionGeneratorAPI.uploadJobDescription(file)
+      const response = await questionGeneratorAPI.uploadJobDescription(file);
       setFormData(prev => ({
         ...prev,
         jobDescription: response.data.content
-      }))
-      toast.success("Job description uploaded successfully")
+      }));
+      toast.success("Job description uploaded successfully");
     } catch (error) {
-      toast.error("Failed to upload file")
-      setSelectedFile(null)
+      toast.error("Failed to upload file");
+      setSelectedFile(null);
     }
-  }
+  };
+
 
   // Generate questions
   const handleGenerateQuestions = async (e) => {
     e.preventDefault()
-    
+
     // Validation
     if (!formData.jobDescription.trim()) {
       toast.error("Job description is required")
       return
     }
-    
+
     if (formData.questionStyles.length === 0) {
       toast.error("Please select at least one question style")
       return
     }
-    
+
     if (!formData.experienceLevel) {
       toast.error("Please select experience level")
       return
     }
 
     setIsLoading(true)
-    
+
     try {
       const response = await questionGeneratorAPI.generateQuestions(formData)
       setGeneratedQuestions(response.data)
@@ -137,13 +144,13 @@ const QuestionGenerator = () => {
         // Store answer in the question object for display
         setGeneratedQuestions(prev => ({
           ...prev,
-          questions: prev.questions.map(q => 
-            q.id === questionId 
+          questions: prev.questions.map(q =>
+            q.id === questionId
               ? { ...q, answer: response.data.answer, evaluationTips: response.data.evaluationTips }
               : q
           )
         }))
-        
+
         setExpandedAnswers(prev => new Set(prev).add(questionId))
       } catch (error) {
         toast.error("Failed to load answer")
@@ -156,7 +163,7 @@ const QuestionGenerator = () => {
       {/* Form Panel */}
       <div className="question-generator-form">
         <div className="form-header">
-          <h2 className="text-2xl font-bold mb-4">AI Job Interview Question Generator</h2>
+          <h2 className="text-2xl font-bold mb-4">AI Interview Question Generator</h2>
         </div>
 
         <form onSubmit={handleGenerateQuestions} className="question-form">
@@ -166,7 +173,7 @@ const QuestionGenerator = () => {
             <div className="file-upload-section">
               <input
                 type="file"
-                accept=".txt"
+                accept=".txt, .pdf, .docx"
                 onChange={handleFileUpload}
                 className="file-input"
                 id="file-upload"
@@ -196,9 +203,8 @@ const QuestionGenerator = () => {
                   key={style}
                   type="button"
                   onClick={() => handleQuestionStyleToggle(style)}
-                  className={`question-style-btn ${
-                    formData.questionStyles.includes(style) ? "selected" : ""
-                  }`}
+                  className={`question-style-btn ${formData.questionStyles.includes(style) ? "selected" : ""
+                    }`}
                 >
                   {style}
                 </button>
@@ -279,7 +285,7 @@ const QuestionGenerator = () => {
         {generatedQuestions ? (
           <div className="results-content">
             <h2 className="text-2xl font-bold mb-6">Generated Questions</h2>
-            
+
             {/* Job Summary */}
             <div className="result-section">
               <h3 className="section-title">Job Summary</h3>
@@ -318,7 +324,7 @@ const QuestionGenerator = () => {
             <div className="result-section">
               <h3 className="section-title">Recommended Interview Structure</h3>
               <p><strong>Estimated Duration:</strong> {generatedQuestions.recommendedInterviewStructure.estimatedDuration}</p>
-              
+
               <div className="interview-structure">
                 <h4>Structure</h4>
                 <div className="structure-item">
@@ -364,14 +370,14 @@ const QuestionGenerator = () => {
                     <div className="question-content">
                       <p className="question-text"><strong>{question.question}</strong></p>
                       <span className="question-style">Style: {question.style}</span>
-                      
+
                       <button
                         onClick={() => toggleAnswer(question.id)}
                         className="btn btn-secondary show-answer-btn"
                       >
                         {expandedAnswers.has(question.id) ? "Hide Answer" : "Show Expected Answer"}
                       </button>
-                      
+
                       {expandedAnswers.has(question.id) && question.answer && (
                         <div className="answer-section">
                           <div className="answer-content">
