@@ -1,12 +1,12 @@
 # BrightLoop - AI Learning Platform and Progress Tracker Frontend
 
-A modern, responsive learning platform built with React that helps users manage educational resources and generate AI-powered interview questions.
+A modern, responsive AI learning platform and progress tracker built with React that helps users manage educational resources and generate AI-powered interview questions.
 
 ## 🚀 Features
 
 - **📚 Resource Management** - Add, organize, and track learning resources
 - **📊 Progress Dashboard** - Visual analytics and completion tracking
-- **🤖 AI Interview Generator** - Generate contextual interview questions using AI
+- **🤖 AI Question Generator** - Generate contextual interview questions using AI
 - **💬 AI Assistant** - Floating chat widget for instant Q&A support
 - **🔐 Authentication** - Secure user registration and login
 - **📱 Responsive Design** - Works seamlessly on desktop, tablet, and working on mobile responsiveness
