@@ -70,3 +70,24 @@ export const categoriesAPI = {
 export const chatAPI = {
   chat: (message) => api.post("/chat", { message }),
 }
+
+// Question Generator API
+export const questionGeneratorAPI = {
+  // Generate interview questions
+  generateQuestions: (data) => api.post("/questions/generate", data),
+  
+  // Get answer for a specific question
+  getAnswer: (questionId) => api.get(`/questions/answer/${questionId}`),
+  
+  // Upload job description file
+  uploadJobDescription: (file) => {
+    const formData = new FormData()
+    formData.append("jobDescription", file)
+    
+    return api.post("/upload/job-description", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+  },
+}
