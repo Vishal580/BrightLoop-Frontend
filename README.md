@@ -34,11 +34,14 @@ frontend/
 │   │   │   ├── Layout.js
 │   │   │   ├── LoadingSpinner.js
 │   │   │   └── Modal.js
+│   │   │   ├── ProtectedRoute.js
+│   │   │   └── Sidebar.js
 │   │   ├── dashboard/        # Dashboard components
 │   │   │   ├── ResourceCard.js
 │   │   │   └── StatsCard.js
 │   │   └── questionGenerator/ # AI Interview Generator
-│   │       └── QuestionGenerator.js
+│   │       |── QuestionGenerator.js
+|   |       └── exportService.js 
 │   ├── hooks/                # Custom React hooks
 │   │   ├── formatTime.js
 │   │   ├── TimeSpentLocalContext.js
@@ -47,17 +50,18 @@ frontend/
 │   │   ├── AddResource.js
 │   │   ├── Dashboard.js
 │   │   ├── Login.js
-│   │   ├── QuestionGeneratorPage.js  # NEW: AI Interview Generator
+│   │   ├── QuestionGeneratorPage.js  # AI Interview Generator
 │   │   ├── ResourceDetails.js
 │   │   ├── ResourceUpdate.js
-│   │   └── Signup.js
+│   │   |── Signup.js
+│   │   └── VerifyOTP.js
 │   ├── services/             # API services
 │   │   └── api.js           # API configuration and endpoints
 │   ├── styles/              # CSS stylesheets
-│   │   ├── chatbox.css
+│   │   ├── chatbot.css
 │   │   ├── components.css
 │   │   ├── global.css
-│   │   ├── questionGenerator.css  # NEW: AI Generator styles
+│   │   ├── questionGenerator.css
 │   │   └── responsive.css
 │   ├── App.js               # Main application component
 │   └── index.js            # Application entry point
@@ -127,6 +131,7 @@ frontend/
 - **Login.js** - User login form
 - **Signup.js** - User registration form
 - **useAuth.js** - Authentication hook with context
+- **VerifyOTP.js** - Verify User via OTP
 
 ### 📚 Resource Management
 - **AddResource.js** - Form to add new learning resources

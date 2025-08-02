@@ -46,6 +46,8 @@ api.interceptors.response.use(
 export const authAPI = {
   login: (credentials) => api.post("/auth/login", credentials),
   signup: (userData) => api.post("/auth/signup", userData),
+  generateOTP: (userId) => api.post("/auth/generate-otp", { userId }),
+  verifyOTP: (userId, otp) => api.post("/auth/verify-otp", { userId, enteredOTP: otp }),
   getProfile: () => api.get("/auth/me"),
 }
 
@@ -73,10 +75,7 @@ export const chatAPI = {
 
 // Question Generator API
 export const questionGeneratorAPI = {
-  // Generate interview questions
   generateQuestions: (data) => api.post("/questions/generate", data),
-  
-  // Get answer for a specific question
   getAnswer: (questionId) => api.get(`/questions/answer/${questionId}`),
   
   // Upload job description file

@@ -1,10 +1,10 @@
 import { useAuth } from "../../hooks/useAuth"
 
-const Header = ({ onMenuClick }) => {
+const Header = ({ onMenuClick, sidebarOpen }) => {
   const { user } = useAuth()
 
   return (
-    <header className="header">
+    <header className={`header ${!sidebarOpen ? "header-full-width" : ""}`}>
       <div className="flex items-center gap-4">
         <button className="mobile-menu-toggle" onClick={onMenuClick}>
           ☰

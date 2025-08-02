@@ -20,11 +20,22 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  const toggleSidebar = () => {
+    setSidebarOpen(prev => !prev)
+  }
+
+  const closeSidebar = () => {
+    setSidebarOpen(false)
+  }
+
   return (
     <div className="app-layout">
-      <Sidebar isOpen={sidebarOpen} />
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
       <div className={`main-content ${!sidebarOpen ? "full-width" : ""}`}>
-        <Header onMenuClick={() => setSidebarOpen(open => !open)} />
+        <Header 
+          onMenuClick={toggleSidebar} 
+          sidebarOpen={sidebarOpen} 
+        />
         {children}
       </div>
       <ChatbotWidget />

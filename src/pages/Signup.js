@@ -1,8 +1,6 @@
-"use client"
-
 import { useState } from "react"
-import { Link } from "react-router-dom"
-import { useAuth } from "../hooks/useAuth"
+import { Link, useNavigate } from "react-router-dom"
+import { authAPI } from "../services/api"
 import toast from "react-hot-toast"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 
@@ -14,7 +12,7 @@ const Signup = () => {
     confirmPassword: "",
   })
   const [loading, setLoading] = useState(false)
-  const { signup } = useAuth()
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -31,11 +29,41 @@ const Signup = () => {
       return
     }
 
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters long")
+      return
+    }
+
     setLoading(true)
 
     try {
-      await signup(formData.email, formData.password, formData.name)
-      toast.success("Account created successfully!")
+      const response = await authAPI.signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      })
+
+      if (response.data.message === "OTP sent to your email") {
+        // User exists but not verified - redirect to OTP verification
+        toast.success("OTP sent to your email!")
+        navigate("/verify-otp", {
+          state: {
+            userId: response.data.user?._id,
+            email: response.data.email,
+            fromLogin: false
+          }
+        })
+      } else {
+        // New user created successfully
+        toast.success("Account created successfully! Please verify your email.")
+        navigate("/verify-otp", {
+          state: {
+            userId: response.data.user._id,
+            email: response.data.user.email,
+            fromLogin: false
+          }
+        })
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || "Signup failed")
     } finally {
@@ -47,8 +75,9 @@ const Signup = () => {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
+          <h1 className="app-name">BrightLoop</h1>
           <h1 className="auth-title">Create Account</h1>
-          <p className="auth-subtitle">Start your learning journey</p>
+          <p className="auth-subtitle">Sign up to get started</p>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -94,6 +123,7 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
               required
+              minLength={6}
             />
           </div>
 
@@ -109,10 +139,16 @@ const Signup = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
+              minLength={6}
             />
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ width: "100%" }} disabled={loading}>
+          <button 
+            type="submit" 
+            className="btn btn-primary" 
+            style={{ width: "100%" }} 
+            disabled={loading}
+          >
             {loading ? <LoadingSpinner size="small" /> : "Create Account"}
           </button>
         </form>

@@ -4,6 +4,7 @@ import Layout from "./components/common/Layout"
 import ProtectedRoute from "./components/common/ProtectedRoute"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
+import VerifyOTP from "./pages/VerifyOTP"
 import Dashboard from "./pages/Dashboard"
 import AddResource from "./pages/AddResource"
 import QuestionGeneratorPage from "./pages/QuestionGeneratorPage"
@@ -27,6 +28,7 @@ function App() {
     <Routes>
       <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
       <Route path="/signup" element={user ? <Navigate to="/dashboard" /> : <Signup />} />
+      <Route path="/verify-otp" element={user ? <Navigate to="/dashboard" /> : <VerifyOTP />} />
       <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
       <Route
         path="/*"
