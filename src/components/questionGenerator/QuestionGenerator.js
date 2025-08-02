@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import toast from "react-hot-toast"
 import "../../styles/questionGenerator.css"
 import { questionGeneratorAPI } from "../../services/api"
+import { exportQuestionsToPDF } from "./exportService"
 
 const QuestionGenerator = () => {
   // Form state
@@ -96,7 +97,6 @@ const QuestionGenerator = () => {
     }
   };
 
-
   // Generate questions
   const handleGenerateQuestions = async (e) => {
     e.preventDefault()
@@ -157,6 +157,18 @@ const QuestionGenerator = () => {
       }
     }
   }
+
+  // Export to PDF function using service
+  const handleExportToPDF = async () => {
+    try {
+      // Pass the API function to get answers for questions that don't have them loaded
+      await exportQuestionsToPDF(generatedQuestions, questionGeneratorAPI.getAnswer);
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      toast.error("Failed to export PDF");
+      console.error("PDF export error:", error);
+    }
+  };
 
   return (
     <div className="question-generator-container">
@@ -284,7 +296,23 @@ const QuestionGenerator = () => {
       <div className="question-generator-results">
         {generatedQuestions ? (
           <div className="results-content">
-            <h2 className="text-2xl font-bold mb-6">Generated Questions</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h2 className="text-2xl font-bold">Generated Questions</h2>
+              <button
+                onClick={handleExportToPDF}
+                className="btn btn-secondary"
+                style={{ 
+                  padding: '10px 20px',
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                📄 Export PDF
+              </button>
+            </div>
 
             {/* Job Summary */}
             <div className="result-section">
