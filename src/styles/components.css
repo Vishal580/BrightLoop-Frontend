@@ -93,6 +93,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 999;
+  transition: all 0.3s ease;
 }
 
 .header.header-full-width {
@@ -304,6 +305,13 @@
 .auth-header {
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.app-name {
+  font-size: 3rem;
+  font-weight: 750;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
 }
 
 .auth-title {
